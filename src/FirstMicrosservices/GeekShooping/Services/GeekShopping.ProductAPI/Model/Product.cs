@@ -1,10 +1,11 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using GeekShopping.ProductAPI.Model.Base;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace GeekShopping.ProductAPI.Model;
 
 [Table("product")]
-public class Product
+public class Product : BaseEntity
 {
     [Column("name")]
     [Required]
