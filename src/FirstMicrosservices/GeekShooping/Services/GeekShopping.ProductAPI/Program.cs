@@ -30,9 +30,9 @@ builder.Services.AddSwaggerGen(c =>
     c.SwaggerDoc("v1", new OpenApiInfo
     {
 
-        Title = "CatalogoAPI",
+        Title = "ProductAPI",
         Version = "v1",
-        Description = "Catálogo de Produtos e Categorias",
+        Description = "API de gerenciamento dos Productos",
         TermsOfService = new Uri("https://github.com/josue-diogo-pedro"),
         Contact = new OpenApiContact
         {

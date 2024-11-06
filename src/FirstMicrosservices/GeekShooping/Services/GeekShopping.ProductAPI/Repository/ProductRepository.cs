@@ -46,7 +46,7 @@ public class ProductRepository : IProductRepository
         try
         {
             var product = await FindByIdAsync(id);
-            if (product is null) return false;
+            if (product.Id <= 0) return false;
 
             _context?.Products?.Remove(_mapper.Map<Product>(product));
             return await SaveChangesAsync();
