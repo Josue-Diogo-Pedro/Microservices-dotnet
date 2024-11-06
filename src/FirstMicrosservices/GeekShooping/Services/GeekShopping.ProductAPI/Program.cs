@@ -1,7 +1,9 @@
 using AutoMapper;
 using GeekShopping.ProductAPI.Config;
 using GeekShopping.ProductAPI.Model.Context;
+using GeekShopping.ProductAPI.Repository;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,12 +16,40 @@ builder.Services.AddSwaggerGen();
 
 var connection = builder.Configuration["MySQLConnection:MySQLConnectionString"];
 
-builder.Services.AddDbContext<MYSQLContext>(options => 
+builder.Services.AddDbContext<MYSQLContext>(options =>
     options.UseMySql(connection, ServerVersion.AutoDetect(connection)));
 
 IMapper mapper = MappingConfig.RegisterMaps().CreateMapper();
 builder.Services.AddSingleton(mapper);
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+
+builder.Services.AddScoped<IProductRepository, ProductRepository>();
+
+builder.Services.AddSwaggerGen(c =>
+{
+    c.SwaggerDoc("v1", new OpenApiInfo
+    {
+
+        Title = "CatalogoAPI",
+        Version = "v1",
+        Description = "Catálogo de Produtos e Categorias",
+        TermsOfService = new Uri("https://github.com/josue-diogo-pedro"),
+        Contact = new OpenApiContact
+        {
+            Name = "Josué Diogo Pedro",
+            Email = "pedrojosuediogo@gmail.com",
+            Url = new Uri("https://github.com/josue-diogo-pedro")
+        },
+        License = new OpenApiLicense
+        {
+            Name = "Usar sobre LICX",
+            Url = new Uri("https://github.com/josue-diogo-pedro")
+        }
+    });
+
+    //Resolve erro de conflito entre actions que não entendes o porquê
+    c.ResolveConflictingActions(apiDescriptions => apiDescriptions.First());
+});
 
 var app = builder.Build();
 
